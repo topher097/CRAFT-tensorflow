@@ -1,0 +1,76 @@
+[project]
+name = "craft-tensorflow"
+version = "0.1.0"
+description = "TF implementation of CRAFT (Character Region Awareness for Text Detection) model."
+readme = "README.md"
+requires-python = ">=3.7,<3.8"
+keywords = [
+    "machine-learning",
+    "deep-learning",
+    "ml",
+    "pytorch",
+    "text",
+    "text-detection",
+    "craft"
+]
+license = "MIT"
+dependencies = [
+
+]
+
+[tool.uv]
+environments = [
+    "sys_platform == 'linux'",
+]
+
+[tool.bumpversion]
+parse = """(?x)
+    (?P<major>0|[1-9]\\d*)\\.
+    (?P<minor>0|[1-9]\\d*)\\.
+    (?P<patch>0|[1-9]\\d*)
+    (?:
+        \\.                                             # period separator for pre-release section
+        (?P<pre_l>[a-zA-Z-]+)                           # pre-release label
+        (?P<pre_n>0|[1-9]\\d*)                          # pre-release version number, for adding a branch name, add this to the next line: (?:\\+\\w+)
+    )?                                                  # pre-release section is optional
+"""
+serialize = [
+    "{major}.{minor}.{patch}.{pre_l}{pre_n}", #+{short_branch_name}",
+    "{major}.{minor}.{patch}",
+]
+search = "{current_version}"
+replace = "{new_version}"
+regex = true
+ignore_missing_version = false
+ignore_missing_files = false
+tag = true
+tag_name = "v{new_version}"
+moveable_tags = [
+    "latest",
+]
+allow_dirty = false
+commit = true
+sign_tags = false
+tag_message = "Bump version: {current_version} → {new_version}"
+message = "Bump version: {current_version} → {new_version}"
+commit_args = "--no-verify"
+pre_commit_hooks = ["uv sync", "git add uv.lock"]
+
+[[tool.bumpversion.files]]
+filename = "craft_text_detector/__init__.py"
+search = '__version__ = "{current_version}"'
+replace = '__version__ = "{new_version}"'
+
+[tool.bumpversion.parts.pre_l]
+values = ["dev", "post"]
+optional_value = "post"
+
+[tool.hatch.version]
+path = "craft_text_detector/__init__.py"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/"]

@@ -17,11 +17,11 @@ def loss(logits, labels):
     Returns:
       loss: Loss tensor of type float.
     """
-    with tf.name_scope('loss'):
-        char_pre = tf.reshape(logits[:, :, :, 0], -1, name='char_pre')
-        aff_pre = tf.reshape(logits[:, :, :, 1], -1, name='aff_pre')
-        char_gt = tf.reshape(labels[:, :, :, 0], -1, name='char_gt')
-        aff_gt = tf.reshape(labels[:, :, :, 1], -1, name='aff_gt')
+    with tf.name_scope("loss"):
+        char_pre = tf.reshape(logits[:, :, :, 0], -1, name="char_pre")
+        aff_pre = tf.reshape(logits[:, :, :, 1], -1, name="aff_pre")
+        char_gt = tf.reshape(labels[:, :, :, 0], -1, name="char_gt")
+        aff_gt = tf.reshape(labels[:, :, :, 1], -1, name="aff_gt")
         char_loss = tf.norm(tf.subtract(char_pre, char_gt))
         aff_loss = tf.norm(tf.subtract(aff_pre, aff_gt))
         loss = tf.reduce_mean(-tf.reduce_sum(tf.add(char_loss, aff_loss)))
