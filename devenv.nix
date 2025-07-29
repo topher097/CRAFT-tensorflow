@@ -24,7 +24,7 @@ in {
   languages = {
     python = {
       enable = true;
-      version = "3.7";
+      version = "3.12";
       uv = {
         enable = true;
         sync.enable = false;

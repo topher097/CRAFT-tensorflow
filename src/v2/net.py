@@ -1,7 +1,8 @@
 import tensorflow as tf
-from tensorflow.keras import layers
-from upconvBlock import UpconvBlock
-from vgg import VGG16Backbone
+from keras import layers
+
+from v2.upconvBlock import UpconvBlock
+from v2.vgg import VGG16Backbone
 
 
 class CRAFTNet(tf.keras.Model):

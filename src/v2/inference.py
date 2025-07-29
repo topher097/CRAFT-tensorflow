@@ -4,17 +4,19 @@ CRAFT Text Detection Inference Script - TensorFlow v2
 Usage: python inference_v2.py --checkpoint_dir /path/to/checkpoint --input_image /path/to/image.jpg
 """
 
-import os
 import argparse
+import os
+from pathlib import Path
+
 import cv2
 import numpy as np
 import tensorflow as tf
-from pathlib import Path
+
+from v2.datagen import normalizeMeanVariance
 
 # Import our converted TF2 modules
-from net_v2 import CRAFTNet
-from text_utils_v2 import get_text_boxes, draw_text_boxes, save_detection_results
-from datagen_v2 import normalizeMeanVariance
+from v2.net import CRAFTNet
+from v2.text_utils import draw_text_boxes, get_text_boxes, save_detection_results
 
 
 class CRAFTInference:
@@ -161,10 +163,11 @@ class CRAFTInference:
 
         adjusted_boxes = []
         for box in text_boxes:
-            adjusted_box = box.copy()
-            adjusted_box[:, 0] *= ratio_w
-            adjusted_box[:, 1] *= ratio_h
-            adjusted_boxes.append(adjusted_box.astype(np.int32))
+            # Ensure float for scaling, then round and cast to int
+            adjusted_box = np.round(box.astype(np.float32) * [ratio_w, ratio_h]).astype(
+                np.int32
+            )
+            adjusted_boxes.append(adjusted_box)
 
         # Create result image
         result_image = draw_text_boxes(original_image, adjusted_boxes)

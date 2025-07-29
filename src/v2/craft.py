@@ -1,13 +1,15 @@
-import tensorflow as tf
+import os
+
 import cv2
 import matplotlib.image as Image
 import matplotlib.pyplot as plt
 import numpy as np
-from OHEM import MSE_OHEM_Loss
-from net import CRAFTNet
-from text_utils import get_result_img
-from datagen import generator, normalizeMeanVariance
-import os
+import tensorflow as tf
+
+from v2.datagen import generator, normalizeMeanVariance
+from v2.net import CRAFTNet
+from v2.OHEM import MSE_OHEM_Loss
+from v2.text_utils import get_result_img
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
